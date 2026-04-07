@@ -55,9 +55,10 @@ func advance_day() -> void:
 	total_days_elapsed += 1
 	day_advanced.emit(current_day)
 
-## Returns the current year (each year = 112 days: 4 seasons × 28 days).
+## Returns the current year (1-indexed). Each year = 112 days (4 seasons × 28 days).
+## Day 1 → Year 1; Day 112 → Year 1; Day 113 → Year 2.
 func get_current_year() -> int:
-	return (total_days_elapsed / 112) + 1
+	return ((total_days_elapsed - 1) / 112) + 1
 
 # ---------------------------------------------------------------------------
 # Save / Load

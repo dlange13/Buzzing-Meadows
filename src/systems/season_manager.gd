@@ -27,6 +27,10 @@ var current_season_index: int = 0
 ## Day within the current season (1-indexed).
 var day_in_season: int = 1
 
+## Probability that any individual event fires on a given day (MVP; uniform).
+## Each season's possible_events list is checked once per day at this rate.
+const DAILY_EVENT_PROBABILITY: float = 0.05
+
 # ---------------------------------------------------------------------------
 # Lifecycle
 # ---------------------------------------------------------------------------
@@ -106,13 +110,13 @@ func _advance_season() -> void:
 	season_changed.emit(get_current_season())
 
 ## Roll dice for random events defined in the current SeasonConfig.
-## Each event in possible_events has a 5% chance of firing per day (MVP).
+## Each event in possible_events has a DAILY_EVENT_PROBABILITY chance of firing per day.
 func _roll_for_events() -> void:
 	var season := get_current_season()
 	if season == null or season.possible_events.is_empty():
 		return
 	for event_id in season.possible_events:
-		if randf() < 0.05:
+		if randf() < DAILY_EVENT_PROBABILITY:
 			seasonal_event_triggered.emit(event_id)
 			break  # Only one event per day (MVP constraint)
 

@@ -82,7 +82,12 @@ func _on_btn_advance_10() -> void:
 
 func _on_btn_simulate_60() -> void:
 	## Reproduce the exact loop from the issue Quick Test.
-	_log_line("--- Simulating 60 days ---")
+	## Note: calls tick_all_hives() directly (as specified in the issue) rather than
+	## SeasonManager.advance_day() — season calendar and GameManager day counter do not
+	## advance. This isolates pure hive simulation math from the full day loop.
+	## To test the full seasonal pipeline, use "Advance 10 Days" instead.
+	_log_line("--- Simulating 60 days (direct tick, season: %s) ---"
+			% SeasonManager.get_season_name())
 	for i in 60:
 		HiveManager.tick_all_hives()
 		_day_count += 1
@@ -96,8 +101,8 @@ func _on_btn_simulate_60() -> void:
 
 func _on_btn_apply_oxalic() -> void:
 	var treatment: TreatmentData = load("res://src/data/treatments/oxalic_acid.tres")
-	var success := HiveManager.apply_treatment(_test_hive, treatment)
-	if success:
+	var full_effectiveness := HiveManager.apply_treatment(_test_hive, treatment)
+	if full_effectiveness:
 		_log_line("✅ Oxalic Acid applied. Mites → %.3f%%" % _test_hive.varroa_mite_load)
 	else:
 		_log_line("⚠️ Oxalic Acid — brood present! Partial kill only. Mites → %.3f%%"
@@ -105,8 +110,8 @@ func _on_btn_apply_oxalic() -> void:
 
 func _on_btn_apply_apivar() -> void:
 	var treatment: TreatmentData = load("res://src/data/treatments/apivar.tres")
-	var success := HiveManager.apply_treatment(_test_hive, treatment)
-	if success:
+	var full_effectiveness := HiveManager.apply_treatment(_test_hive, treatment)
+	if full_effectiveness:
 		_log_line("✅ Apivar strips applied (%d days). Tick daily to see gradual reduction."
 				% treatment.duration_days)
 	else:
@@ -114,8 +119,8 @@ func _on_btn_apply_apivar() -> void:
 
 func _on_btn_apply_hopguard() -> void:
 	var treatment: TreatmentData = load("res://src/data/treatments/hopguard.tres")
-	var success := HiveManager.apply_treatment(_test_hive, treatment)
-	if success:
+	var full_effectiveness := HiveManager.apply_treatment(_test_hive, treatment)
+	if full_effectiveness:
 		_log_line("✅ HopGuard applied (%d days) — honey supers safe."
 				% treatment.duration_days)
 

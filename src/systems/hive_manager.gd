@@ -186,9 +186,9 @@ func _tick_honey_production(hive: HiveData) -> void:
 ## minus daily deaths (constant mortality fraction of current population).
 func _tick_population(hive: HiveData) -> void:
 	if not hive.queen_present:
-		# Queenless: 1% daily attrition, no new bees
-		hive.population = max(0, hive.population - int(maxf(1.0,
-				float(hive.population) * 0.01)))
+		# Queenless: 1% daily attrition, no new bees. The floor of 1 bee ensures
+		# progress toward population=0 even in very small colonies (< 100 bees).
+		hive.population = max(0, hive.population - max(1, int(float(hive.population) * 0.01)))
 		if hive.population == 0:
 			_trigger_collapse(hive)
 		return
@@ -261,6 +261,11 @@ func apply_treatment(hive: HiveData, treatment: TreatmentData) -> bool:
 # ---------------------------------------------------------------------------
 
 ## Return a deep copy of the hives array for inclusion in SaveData.
+## Note: HiveData.duplicate(true) creates a new TreatmentData resource instance
+## rather than preserving the original .tres reference. On load, the treatment
+## data is still functionally correct (all fields copied); only resource identity
+## (e.g. `==` with the original .tres) will differ. Full path-based serialization
+## is planned for a future save system improvement.
 func get_hives_for_save() -> Array[HiveData]:
 	var copy: Array[HiveData] = []
 	for hive in hives:
@@ -279,8 +284,9 @@ func restore_from_save(saved_hives: Array[HiveData]) -> void:
 # ---------------------------------------------------------------------------
 
 func _trigger_collapse(hive: HiveData) -> void:
-	if hive.population == 0 and not hive.queen_present and hive.brood_health == 0.0:
-		return  # Already fully collapsed; avoid duplicate signal
+	if hive.collapsed:
+		return  # Guard: prevent duplicate hive_collapsed emissions
+	hive.collapsed = true
 	hive.population = 0
 	hive.brood_health = 0.0
 	hive.queen_present = false

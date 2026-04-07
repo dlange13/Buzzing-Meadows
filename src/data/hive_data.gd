@@ -14,6 +14,8 @@ extends Resource
 @export var queen_present: bool = true
 ## Age of the current queen in in-game days. Queens older than ~730 days (2 seasons)
 ## may show reduced laying efficiency and should be considered for replacement.
+## TODO: Implement queen efficiency penalty in HiveManager._tick_queen_age()
+##       once the requeening mechanic is designed (planned v0.2).
 @export var queen_age_days: int = 0
 ## Varroa mite load as mites per 100 bees (%). Doubles every 4–5 weeks in summer
 ## because mites reproduce inside capped brood cells. Treat when >2% in summer.
@@ -30,6 +32,11 @@ extends Resource
 ## True if Africanized genetics are detected — colony will be more defensive.
 ## Requeening with European stock resolves this but takes time.
 @export var is_defensive: bool = false       # true if Africanized genetics present
+
+## Whether the colony has permanently collapsed (population zero, no recovery).
+## Set to true by HiveManager._trigger_collapse() and checked to guard
+## against duplicate hive_collapsed signal emissions.
+@export var collapsed: bool = false
 
 ## The varroa treatment currently applied to this hive, or null if untreated.
 ## Multi-day treatments (Apivar, Apiguard) stay active for their full duration.

@@ -1,6 +1,9 @@
-[gd_resource type="TreatmentData" format=3]
+[gd_resource type="Resource" script_class="TreatmentData" format=3]
+
+[ext_resource type="Script" path="res://src/data/treatment_data.gd" id="1_ag"]
 
 [resource]
+script = ExtResource("1_ag")
 treatment_name = "Apiguard (Thymol Gel)"
 active_ingredient = "Thymol"
 effectiveness = 0.74

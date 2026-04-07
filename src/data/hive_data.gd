@@ -30,3 +30,10 @@ extends Resource
 ## True if Africanized genetics are detected — colony will be more defensive.
 ## Requeening with European stock resolves this but takes time.
 @export var is_defensive: bool = false       # true if Africanized genetics present
+
+## The varroa treatment currently applied to this hive, or null if untreated.
+## Multi-day treatments (Apivar, Apiguard) stay active for their full duration.
+@export var active_treatment: TreatmentData = null
+## Days remaining for the active treatment. Counted down by HiveManager each tick.
+## When it reaches 0 the treatment is removed automatically.
+@export var treatment_days_remaining: int = 0

@@ -1,0 +1,10 @@
+[gd_resource type="TreatmentData" format=3]
+
+[resource]
+treatment_name = "Apivar (Amitraz Strips)"
+active_ingredient = "Amitraz"
+effectiveness = 0.90
+requires_brood_free = false
+duration_days = 42
+safe_with_honey_supers = false
+educational_note = "Plastic strips coated with amitraz, a synthetic miticide. Effective in hives with brood because mites contact the strips as bees walk across them. Remove honey supers before application to prevent contamination. Leave strips in for 6–8 weeks (42–56 days). Rotate chemical classes to prevent resistance."

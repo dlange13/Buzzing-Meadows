@@ -1,0 +1,10 @@
+[gd_resource type="TreatmentData" format=3]
+
+[resource]
+treatment_name = "HopGuard (Hop Beta Acids)"
+active_ingredient = "Potassium salts of hop beta acids"
+effectiveness = 0.65
+requires_brood_free = false
+duration_days = 30
+safe_with_honey_supers = true
+educational_note = "Strips derived from hops plant extracts. The only treatment listed here that can be used while honey supers are on the hive, making it useful during the nectar flow. Lower efficacy (~65%) than synthetic options. Works on contact with adult bees; apply two strips per brood box. FDA-approved; OMRI-listed for organic operations."

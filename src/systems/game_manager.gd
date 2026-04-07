@@ -63,18 +63,40 @@ func get_current_year() -> int:
 # Save / Load
 # ---------------------------------------------------------------------------
 
-## Save the current game state to disk.
+## Save the current game state to disk using ResourceSaver.
+## Serializes player data, all hive states, and season position into SaveData.
 func save_game() -> void:
-	## TODO: Serialize player data, hive data, and season state into a Resource
-	## and write it to SAVE_FILE_PATH using ResourceSaver.
+	var data := SaveData.new()
+	data.player_name = player_name
+	data.current_day = current_day
+	data.total_days_elapsed = total_days_elapsed
+	data.honey_coins = honey_coins
+	data.current_season_index = SeasonManager.current_season_index
+	data.day_in_season = SeasonManager.day_in_season
+	data.hives = HiveManager.get_hives_for_save()
+	var err := ResourceSaver.save(data, SAVE_FILE_PATH)
+	if err != OK:
+		push_error("GameManager: Failed to save game — %s" % error_string(err))
+		return
 	game_saved.emit()
 
-## Load a saved game from disk. Returns false if no save file exists.
+## Load a saved game from disk. Returns false if no save file exists or load fails.
+## Restores all player data, season position, and hive states.
 func load_game() -> bool:
-	## TODO: Check if SAVE_FILE_PATH exists; load Resource with ResourceLoader;
-	## restore all state fields; emit game_loaded.
 	if not ResourceLoader.exists(SAVE_FILE_PATH):
 		return false
+	var data := ResourceLoader.load(SAVE_FILE_PATH) as SaveData
+	if data == null:
+		push_error("GameManager: Save file exists but could not be loaded as SaveData.")
+		return false
+	player_name = data.player_name
+	current_day = data.current_day
+	total_days_elapsed = data.total_days_elapsed
+	honey_coins = data.honey_coins
+	SeasonManager.current_season_index = data.current_season_index
+	SeasonManager.day_in_season = data.day_in_season
+	HiveManager.restore_from_save(data.hives)
+	game_active = true
 	game_loaded.emit()
 	return true
 

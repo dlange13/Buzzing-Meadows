@@ -1,0 +1,10 @@
+[gd_resource type="TreatmentData" format=3]
+
+[resource]
+treatment_name = "Apiguard (Thymol Gel)"
+active_ingredient = "Thymol"
+effectiveness = 0.74
+requires_brood_free = false
+duration_days = 28
+safe_with_honey_supers = false
+educational_note = "Thymol-based gel that slowly evaporates in hive warmth, vapors killing mites on bees and in open cells. Requires temperatures above 15°C (60°F) for effective vaporization — less reliable in cool fall weather. Two trays placed 14 days apart give best results. Remove honey supers during treatment."

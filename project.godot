@@ -13,7 +13,7 @@ config_version=5
 config/name="Buzzing Meadows"
 config/description="A cozy pixel art beekeeping and pollinator life sim."
 config/version="0.1.0"
-run/main_scene="res://src/ui/main_menu.tscn"
+run/main_scene="res://src/ui/test_hive_simulation.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://assets/sprites/ui/icon.png"
 

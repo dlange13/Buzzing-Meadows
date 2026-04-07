@@ -1,0 +1,10 @@
+[gd_resource type="TreatmentData" format=3]
+
+[resource]
+treatment_name = "Oxalic Acid (Dribble)"
+active_ingredient = "Oxalic acid dihydrate"
+effectiveness = 0.97
+requires_brood_free = true
+duration_days = 1
+safe_with_honey_supers = false
+educational_note = "Most effective single-dose treatment when the colony is brood-free (winter cluster or induced brood break). Kills ~97% of phoretic mites — those riding on adult bees. Cannot reach mites inside capped brood cells. Apply once per brood-free period. Wisconsin beekeepers apply in December–January for best results."

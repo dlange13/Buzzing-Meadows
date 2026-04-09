@@ -151,7 +151,7 @@ func _on_colony_at_risk(hive: HiveData) -> void:
 	_lbl_warning.add_theme_color_override("font_color", Color.RED)
 	_log_line("🚨 colony_at_risk fired! Varroa at %.2f%%" % hive.varroa_mite_load)
 
-func _on_hive_collapsed(hive: HiveData) -> void:
+func _on_hive_collapsed(_hive: HiveData) -> void:
 	_lbl_warning.text = "💀 COLONY COLLAPSED"
 	_log_line("💀 hive_collapsed — colony lost to varroa overload.")
 

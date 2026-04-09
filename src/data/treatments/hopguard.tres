@@ -1,6 +1,9 @@
-[gd_resource type="TreatmentData" format=3]
+[gd_resource type="Resource" script_class="TreatmentData" format=3]
+
+[ext_resource type="Script" path="res://src/data/treatment_data.gd" id="1_hg"]
 
 [resource]
+script = ExtResource("1_hg")
 treatment_name = "HopGuard (Hop Beta Acids)"
 active_ingredient = "Potassium salts of hop beta acids"
 effectiveness = 0.65

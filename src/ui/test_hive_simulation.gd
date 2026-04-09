@@ -128,6 +128,11 @@ func _on_btn_inspect() -> void:
 	HiveManager.inspect_hive(_test_hive)
 	_log_line("🔍 Hive inspected on day %d" % GameManager.current_day)
 
+func _on_btn_open_inspection() -> void:
+	## Switch to the visual inspection scene. HiveManager still holds the test
+	## hive, so InspectionHive.gd can fetch it via HiveManager.get_hive(0).
+	get_tree().change_scene_to_file("res://src/ui/inspection_hive.tscn")
+
 func _on_btn_save() -> void:
 	GameManager.save_game()
 	_log_line("💾 Game saved to user://save_game.tres")
@@ -269,11 +274,12 @@ func _build_ui() -> void:
 	var btn_oxalic := _make_button("Apply Oxalic Acid", _on_btn_apply_oxalic)
 	var btn_apivar := _make_button("Apply Apivar (42d)", _on_btn_apply_apivar)
 	var btn_hg     := _make_button("Apply HopGuard",    _on_btn_apply_hopguard)
-	var btn_ins    := _make_button("Inspect Hive",      _on_btn_inspect)
-	var btn_save   := _make_button("💾 Save Game",      _on_btn_save)
-	var btn_load   := _make_button("📂 Load Game",      _on_btn_load)
+	var btn_ins    := _make_button("Inspect Hive",         _on_btn_inspect)
+	var btn_open   := _make_button("🔍 Open Inspection UI", _on_btn_open_inspection)
+	var btn_save   := _make_button("💾 Save Game",          _on_btn_save)
+	var btn_load   := _make_button("📂 Load Game",          _on_btn_load)
 	for btn in [btn_day, btn_10, btn_60, btn_oxalic, btn_apivar, btn_hg, btn_ins,
-			btn_save, btn_load]:
+			btn_open, btn_save, btn_load]:
 		stats_vbox.add_child(btn)
 
 	# --- Right column: Log ---

@@ -162,7 +162,8 @@ func _rebuild_mite_dots(frame_index: int) -> void:
 	for _i in dot_count:
 		var dot := ColorRect.new()
 		dot.color = COLOR_MITE
-		# 4×4 px = one 16×16 sprite-pixel scaled 4×; matches TEXTURE_FILTER_NEAREST
+		# 4×4 px = one logical pixel at the project's 4× canvas scale;
+		# matches TEXTURE_FILTER_NEAREST pixel art rendering
 		dot.size = Vector2(4, 4)
 		# Keep dots inside the comb area (below the frame label row)
 		var bx := rng.randi_range(MITE_MARGIN_X, FRAME_WIDTH - MITE_MARGIN_END)
@@ -522,7 +523,7 @@ func _build_frame_panel(frame_index: int) -> Control:
 	num_lbl.position = Vector2(0, 3)
 	panel.add_child(num_lbl)
 
-	# Honeycomb cell grid (16×16 "pixel art" cells, TEXTURE_FILTER_NEAREST scale)
+	# Honeycomb cell grid — CELL_SIZE × CELL_SIZE px cells, TEXTURE_FILTER_NEAREST scale
 	_add_comb_cells(panel, frame_index)
 
 	# Transparent click-through button overlay — sends click to handler
@@ -551,7 +552,8 @@ func _add_comb_cells(panel: Panel, frame_index: int) -> void:
 	for row in rows:
 		for col in cols:
 			var cr := ColorRect.new()
-			# Bottom ~40% of rows = brood cells; rest = honey/pollen
+			# Rows at 60% or beyond = lower comb area = capped brood cells (~40% of frame).
+			# Varroa mites prefer capped brood — they reproduce inside sealed cells.
 			if row >= int(rows * 0.60):
 				cr.color = COLOR_BROOD_CELL if rng.randf() > 0.15 else COLOR_COMB
 			else:
